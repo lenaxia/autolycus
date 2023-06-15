@@ -554,9 +554,9 @@ class Autolycus(object):
         self.stop()
         self.setup_database_connection()
         self._wait_for_database()
+        self.populate_sql()
         self.setup_interserver()
         self.sql_upgrades()
-        self.populate_sql()
 
     def account(self, name, password=None, sex=None, gm=False, id=None):
         """Create or modify accounts on the server."""
