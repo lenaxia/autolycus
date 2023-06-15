@@ -436,6 +436,27 @@ class Autolycus(object):
         self.stop()
         self.start()
 
+    def populate_sql(self):
+        """Populate the sql table with the appropriate sql files"""
+        server_mode = self.version_info["server_mode"]
+
+        """Define common sql files"""
+        sql_files = ["main.sql", "logs.sql", "item_db2.sql", "mob_db2.sql", "mob_skill_db2.sql"]
+
+        """Append sql files specific to server_mode"""
+        if server_mode == "classic":
+            sql_files = sql_files + ["item_db.sql", "mob_db.sql", "mob_skill_db.sql"]
+        elif server_mode == "renewal":
+            sql_files = sql_files + ["item_db_re.sql", "mob_db_re.sql", "mob_skill_db_re.sql"]
+        else:
+            self.logger.warn(f'{server_mode} must be either "classic" or "renewal"')
+            return server_mode
+
+        for file_name in sql_files:
+            self.logger.debug(f'Importing sql files to init database')
+            file_path = os.path.join(self.hercules_path, 'sql-files', file_name)
+            self.import_sql(file_path)
+
     def sql_upgrades(self, force=False):
         """Determine whether any SQL upgrades need to be run and do so if appropriate.
 
@@ -535,6 +556,7 @@ class Autolycus(object):
         self._wait_for_database()
         self.setup_interserver()
         self.sql_upgrades()
+        self.populate_sql()
 
     def account(self, name, password=None, sex=None, gm=False, id=None):
         """Create or modify accounts on the server."""
