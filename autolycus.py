@@ -441,16 +441,16 @@ class Autolycus(object):
         server_mode = self.version_info["server_mode"]
 
         """Define common sql files"""
-        sql_files = ["main.sql", "logs.sql", "item_db2.sql", "mob_db2.sql", "mob_skill_db2.sql"]
+        sql_files = ["1-main.sql", "8-logs.sql", "5-item_db2.sql", "6-mob_db2.sql", "7-mob_skill_db2.sql", "2-item_db.sql", "3-mob_db.sql", "4-mob_skill_db.sql"]
 
-        """Append sql files specific to server_mode"""
-        if server_mode == "classic":
-            sql_files = sql_files + ["item_db.sql", "mob_db.sql", "mob_skill_db.sql"]
-        elif server_mode == "renewal":
-            sql_files = sql_files + ["item_db_re.sql", "mob_db_re.sql", "mob_skill_db_re.sql"]
-        else:
-            self.logger.warn(f'{server_mode} must be either "classic" or "renewal"')
-            return server_mode
+#        """Append sql files specific to server_mode"""
+#        if server_mode == "classic":
+#            sql_files = sql_files + ["item_db.sql", "mob_db.sql", "mob_skill_db.sql"]
+#        elif server_mode == "renewal":
+#            sql_files = sql_files + ["item_db_re.sql", "mob_db_re.sql", "mob_skill_db_re.sql"]
+#        else:
+#            self.logger.warn(f'{server_mode} must be either "classic" or "renewal"')
+#            return server_mode
 
         for file_name in sql_files:
             self.logger.debug(f'Importing sql files to init database')
